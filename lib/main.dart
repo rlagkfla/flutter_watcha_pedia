@@ -137,6 +137,7 @@ class BookTile extends StatelessWidget {
     BookService bookService = context.read<BookService>();
 
     return ListTile(
+      // isThreeLine: true,
       onTap: () {
         Navigator.push(
           context,
@@ -155,9 +156,18 @@ class BookTile extends StatelessWidget {
         book.title,
         style: TextStyle(fontSize: 16),
       ),
-      subtitle: Text(
-        book.subtitle,
-        style: TextStyle(color: Colors.grey),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            book.authors.join(", "),
+            style: TextStyle(color: Colors.grey),
+          ),
+          Text(
+            book.publishedDate,
+            style: TextStyle(color: Colors.grey),
+          ),
+        ],
       ),
       trailing: IconButton(
         onPressed: () {
