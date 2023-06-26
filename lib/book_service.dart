@@ -1,9 +1,16 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:watcha_pedia/main.dart';
 
 import 'book.dart';
 
 class BookService extends ChangeNotifier {
+  BookService() {
+    loadLikedBookList();
+  }
+
   List<Book> bookList = []; // 책 목록
   List<Book> likedBookList = [];
 
@@ -15,6 +22,7 @@ class BookService extends ChangeNotifier {
       likedBookList.add(book);
     }
     notifyListeners();
+    saveLikedBookList();
   }
 
   void search(String q) async {
@@ -44,5 +52,27 @@ class BookService extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  saveLikedBookList() {
+    List bookJsonList = likedBookList.map((book) => book.toJson()).toList();
+    // [{"content": "1"}, {"content": "2"}]
+
+    String jsonString = jsonEncode(bookJsonList);
+    // '[{"content": "1"}, {"content": "2"}]'
+
+    prefs.setString('likedBookList', jsonString);
+  }
+
+  loadLikedBookList() {
+    String? jsonString = prefs.getString('likedBookList');
+    // '[{"content": "1"}, {"content": "2"}]'
+
+    if (jsonString == null) return; // null 이면 로드하지 않음
+
+    List bookJsonList = jsonDecode(jsonString);
+    // [{"content": "1"}, {"content": "2"}]
+
+    likedBookList = bookJsonList.map((json) => Book.fromJson(json)).toList();
   }
 }
