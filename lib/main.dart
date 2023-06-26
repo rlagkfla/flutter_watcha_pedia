@@ -156,18 +156,22 @@ class BookTile extends StatelessWidget {
         book.title,
         style: TextStyle(fontSize: 16),
       ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            book.authors.join(", "),
-            style: TextStyle(color: Colors.grey),
-          ),
-          Text(
-            book.publishedDate,
-            style: TextStyle(color: Colors.grey),
-          ),
-        ],
+      // subtitle: Column(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     Text(
+      //       book.authors.toString().replaceAll("[", "").replaceAll("]", ""),
+      //       style: TextStyle(color: Colors.grey),
+      //     ),
+      //     Text(
+      //       book.publishedDate,
+      //       style: TextStyle(color: Colors.grey),
+      //     ),
+      //   ],
+      // ),
+      subtitle: Text(
+        "${book.authors.join(", ")}\n${book.publishedDate}",
+        style: TextStyle(color: Colors.grey),
       ),
       trailing: IconButton(
         onPressed: () {

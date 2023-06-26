@@ -17,14 +17,6 @@ class BookService extends ChangeNotifier {
     notifyListeners();
   }
 
-/*
-main(List<String> arguments) {
-  List cities = ['NY', 'LA', 'Tokyo'];
-
-  String s = cities.join(', ');
-  print(s);
-}
- */
   void search(String q) async {
     bookList.clear(); // 검색 버튼 누를때 이전 데이터들을 지워주기
 
@@ -35,7 +27,7 @@ main(List<String> arguments) {
       List items = res.data["items"];
 
       for (Map<String, dynamic> item in items) {
-        List authorlist = item['volumeInfo']['authors'];
+        // List authorlist = item['volumeInfo']['authors'] ?? List.empty();
 
         Book book = Book(
           id: item['id'],
@@ -44,7 +36,8 @@ main(List<String> arguments) {
           thumbnail: item['volumeInfo']['imageLinks']?['thumbnail'] ??
               "https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482953.jpg",
           previewLink: item['volumeInfo']['previewLink'] ?? "",
-          authors: authorlist,
+          // authors: authorlist,
+          authors: item['volumeInfo']['authors'] ?? [],
           publishedDate: item['volumeInfo']['publishedDate'] ?? "",
         );
         bookList.add(book);
